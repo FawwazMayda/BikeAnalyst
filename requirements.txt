@@ -2,3 +2,5 @@ pandas
 matplotlib
 plotly
 dash
+flask
+gunicorn

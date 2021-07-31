@@ -57,7 +57,7 @@ def update_output(value):
     right_date = unixToDatetime(value[1])
     left_date = f"{left_date.date().year} - {left_date.date().month} - {left_date.date().day}"
     right_date = f"{right_date.date().year} - {right_date.date().month} - {right_date.date().day}"
-    return f"Between : {left_date} and {right_date}"
+    return f"Bikeshare data between : {left_date} and {right_date}"
 
 
 @app.callback(
