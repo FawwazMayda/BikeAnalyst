@@ -1,5 +1,6 @@
 import dash_core_components as dcc
 import dash
+from dash_core_components.Graph import Graph
 import dash_html_components as html
 import pandas as pd
 import time
@@ -45,6 +46,7 @@ app.layout = html.Div([
             ),
     html.H3(id='output-container-range-slider'),
     dcc.Graph(id='bikeshare-trends-overall'),
+    dcc.Graph(id='bikeshare-trend-by-user-type'),
     dcc.Graph(id='bikeshare-trends-weather'),
     dcc.Graph(id='bikeshare-trends-weekday-user')
 ])
@@ -73,6 +75,17 @@ def update_bikeshare_overall(value):
     return px.line(filtered_df,x='date',y='trips',title="Bikeshare trends overall")
 
 @app.callback(
+    dash.dependencies.Output('bikeshare-trend-by-user-type','figure'),
+    dash.dependencies.Input('my-range-slider', 'value')
+)
+def update_bikeshare_user(value):
+    left_range = unixToDatetime(value[0])
+    right_range = unixToDatetime(value[1])
+    filtered_df = df[df['date'] >= left_range]
+    filtered_df = filtered_df[filtered_df['date'] <= right_range]
+    return px.line(filtered_df,x='date',y=['casual','registered'],title="Bikeshare trends by user type")
+
+@app.callback(
     dash.dependencies.Output('bikeshare-trends-weather','figure'),
     dash.dependencies.Input('my-range-slider', 'value')
 )
@@ -94,7 +107,7 @@ def update_bikeshare_weekday_user(value):
     filtered_df = df[df['date'] >= left_range]
     filtered_df = filtered_df[filtered_df['date'] <= right_range]
     filtered_df = filtered_df.groupby('weekday').sum()[['casual','registered']].reset_index()
-    return px.bar(filtered_df,x='weekday',y=['casual','registered'],title="Bikeshare user type per weekday")
+    return px.bar(filtered_df,x='weekday',y=['casual','registered'],title="Bikeshare user type per weekday",barmode='group')
 
     
 
