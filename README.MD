@@ -1,4 +1,4 @@
-## This repo contains the submission for Generasi Gigih Homework DA Homework Module 4 Session 3
+## This repo contains the submission for Generasi Gigih Homework DA Module 4 Session 3
 
 ### Some requirements are listed in requirements.txt, so make sure to run
 
